@@ -1,0 +1,25 @@
+! for Tk 8.5  
+
+*font: 				      Arial 12
+
+*background:               #959BA2
+*foreground:        black
+*selectForeground:       black
+*selectBackground:  #4E87DA
+*selectBorderWidth:       0
+*insertWidth: 1
+
+*relief:                        flat
+*Button*relief:             raised
+*Entry*background:     white
+*Scrollbar*width:  11
+*Scrollbar*troughColor:  #C1C5C9
+*Text*font:  Fixed 12
+*Text*background:   #1818B2
+*Text*foreground:   #B2B2B2
+
+*highlightThickness: 0
+
+*borderWidth: 1
+
+

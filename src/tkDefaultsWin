@@ -1,0 +1,21 @@
+! for Tk 8.5  
+
+*font: 				      Tachoma 10
+
+*background:               #959BA2
+*foreground:        black
+*selectForeground:       black
+*selectBackground:  #4E87DA
+*selectBorderWidth:       0
+*insertWidth: 1
+
+*relief:                        flat
+*Button*relief:             raised
+*Entry*background:     white
+*Text*font:  Courier 10
+*Text*background:   #1818B2
+*Text*foreground:   #B2B2B2
+
+*highlightThickness: 0
+
+*borderWidth: 1
