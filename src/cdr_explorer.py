@@ -13,7 +13,7 @@ class FileViewer:
 		
 	def build_window(self):
 		self.root = Tkinter.Tk()
-		self.root.title('CDR/CMX Explorer')
+		self.root.title('CDR/CMX/CDRX Explorer')
 		
 		if os.name == 'nt':
 			self.root.option_readfile('tkDefaultsWin', 'interactive')
@@ -40,7 +40,7 @@ class FileViewer:
 		self.build_tree()
 
 	def build_tree(self):
-		self.item = FileTreeItem(self.root, self.browsePath, filetypes=['cdr','cmx','CDR','CMX'], preview=self.preview)
+		self.item = FileTreeItem(self.root, self.browsePath, filetypes=['cdr','cmx','ccx','CDR','CMX','CCX'], preview=self.preview)
 		self.node = TreeNode(self.tree.canvas, None, self.item)
 		self.node.expand()
 		self.preview.clearPreview()

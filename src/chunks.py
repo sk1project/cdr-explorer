@@ -30,40 +30,21 @@ class RiffChunk:
 			self.infocollector.image=None
 			self.infocollector.bitmap=None
 			
-	def loadcompressed_chunk(self):
+	def load_pack(self):
 		self.compression=True
 		self.infocollector.compression=True
-		[compressedsize] = struct.unpack('<I', self.data[4:8])
-		[uncompressedsize] = struct.unpack('<I', self.data[8:12])
-		[blocksizessize] = struct.unpack('<I', self.data[12:16])
-		# 16:20 unknown (seen 12, 1096)
-		assert(self.data[20:24] == 'CPng')
-		assert(struct.unpack('<H', self.data[24:26])[0] == 1)
-		assert(struct.unpack('<H', self.data[26:28])[0] == 4)
-		if (20 + compressedsize + blocksizessize + 1) & ~1 != self.rawsize:
-			raise Exception('mismatched blocksizessize value (20 + %u + %u != %u)' % (compressedsize, blocksizessize, self.rawsize))
 		decomp = zlib.decompressobj()
-		self.uncompresseddata = decomp.decompress(self.data[28:])
-		if len(decomp.unconsumed_tail):
-			raise Exception('unconsumed tail in compressed data (%u bytes)' % len(decomp.unconsumed_tail))
-		if len(decomp.unused_data) != blocksizessize:
-			raise Exception('mismatch in unused data after compressed data (%u != %u)' % (len(decomp.unused_data), bytesatend))
-		if len(self.uncompresseddata) != uncompressedsize:
-			raise Exception('mismatched compressed data size: expected %u got %u' % (uncompressedsize, len(self.uncompresseddata)))
+		self.uncompresseddata = decomp.decompress(self.data[12:])
 		chunk = RiffChunk(infocollector=self.infocollector)
-		blocksizesdata = zlib.decompress(self.data[28+compressedsize:])
-		blocksizes = []
-		for i in range(0, len(blocksizesdata), 4):
-			blocksizes.append(struct.unpack('<I', blocksizesdata[i:i+4])[0])
 		offset = 0
 		self.contents = []
 		while offset < len(self.uncompresseddata):
 			chunk = RiffChunk(infocollector=self.infocollector)
 			chunk.parent = self
-			chunk.load(self.uncompresseddata, offset, blocksizes)
+			chunk.load(self.uncompresseddata, offset)
 			self.contents.append(chunk)
 			offset += 8 + chunk.rawsize
-	
+
 	def loadcompressed(self):
 		if self.data[0:4] != 'cmpr':
 			raise Exception("can't happen")
@@ -130,9 +111,12 @@ class RiffChunk:
 		if self.fourcc == 'vrsn':
 			[version] = struct.unpack('<H', self.data)
 			self.infocollector.cdr_version=version/100
+
 		self.contents = []
 		self.fullname = self.full_name()        
 		self.chunkname = self.chunk_name()
+		if self.fourcc == 'pack':	
+			self.load_pack()
 		if self.fourcc == 'RIFF' or self.fourcc == 'LIST':
 			self.listtype = buf[offset+8:offset+12]
 			self.fullname = self.full_name()

@@ -26,7 +26,7 @@ class WebEntry:
 		self.master = master
 		self.textvariable=textvariable
 		self.frame = Tkinter.Frame(self.master, border=1, relief='flat', bg='#595D61')
-		self.entry=Tkinter.Entry(self.frame, textvariable=self.textvariable)	
+		self.entry=Tkinter.Entry(self.frame, textvariable=self.textvariable)    
 		self.entry.pack(side='top', fill='x', expand=1)
 		
 class PreviewPanel:
@@ -43,7 +43,7 @@ class PreviewPanel:
 		self.label=Tkinter.Label(inner_frame, text='No info', justify='left')
 		self.label.pack(side='top')
 		
-	def processFile(self, fileName):		
+	def processFile(self, fileName):                
 		self.riff=chunks.load_file(fileName)
 		text=''
 		if self.riff.infocollector.cdr_version>0:
@@ -59,7 +59,7 @@ class PreviewPanel:
 			text+='Corel Presentation\nExchange ver. CMX1      '
 		self.label['text']=text
 		if self.riff.infocollector.image:
-			self.image['image']=self.riff.infocollector.image				
+			self.image['image']=self.riff.infocollector.image                               
 		else:
 			self.image['image']=self.no_image
 
@@ -75,7 +75,7 @@ class CDRViewer:
 
 	def __init__(self, master, pathToFile=None):
 		self.master=master
-		self.pathToFile=pathToFile		
+		self.pathToFile=pathToFile              
 		self.build_window()
 
 	def open_file(self):
@@ -90,21 +90,21 @@ class CDRViewer:
 		self.root.title('Parsed file: '+self.pathToFile)
 		#self.root.transient(self.master)
 		
-		self.root.geometry('850x600+300+200')		
+		self.root.geometry('850x600+300+200')           
 		
 		self.fileName=Tkinter.StringVar(self.root)
 		
-		pFrame = Tkinter.PanedWindow(self.root, relief='flat', border=5)		
+		pFrame = Tkinter.PanedWindow(self.root, relief='flat', border=5)                
 		frame2 = Tkinter.Frame(pFrame, border=0, relief='flat')
-		pFrame2 = Tkinter.PanedWindow(frame2, relief='flat', border=5, orient='vertical')		
+		pFrame2 = Tkinter.PanedWindow(frame2, relief='flat', border=5, orient='vertical')               
 		ldFrame = Tkinter.Frame(frame2, relief='flat', border=3)
 		
-		self.fileEntry = WebEntry(ldFrame, textvariable=self.fileName)		
+		self.fileEntry = WebEntry(ldFrame, textvariable=self.fileName)          
 		self.openFile=WebButton(ldFrame, command=self.open_file)
 		
 		treeFrame = Tkinter.Frame(pFrame, border=1, relief='flat', bg='#595D61')
 		
-		self.tree = TreeWidget.ScrolledCanvas(treeFrame, bg='#EDEDED', highlightthickness=0, takefocus=1, width=200)		
+		self.tree = TreeWidget.ScrolledCanvas(treeFrame, bg='#EDEDED', highlightthickness=0, takefocus=1, width=200)            
 		self.info=InfoViewer(pFrame2)
 		self.dump=DumpViewer(pFrame2)
 		
@@ -134,7 +134,7 @@ class CDRViewer:
 		self.riff=chunks.load_file(oname)
 		self.item = TreeWidget.ObjectTreeItem(self.riff, self.dump, self.info, self.analyser)
 		self.node = TreeWidget.TreeNode(self.tree.canvas, None, self.item)
-		self.node.expand()		
+		self.node.expand()              
 		
 class DumpViewer:
 	def __init__(self, master, **opts):
@@ -149,8 +149,8 @@ class DumpViewer:
 		self.header['state']=Tkinter.DISABLED
 		
 		
-#		self.numviewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED, bg='#595D61', width=9)
-#		self.viewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED,fg='black', bg='#C0C0C0', width=50)
+#               self.numviewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED, bg='#595D61', width=9)
+#               self.viewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED,fg='black', bg='#C0C0C0', width=50)
 		self.numviewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED, width=9)
 		self.viewer= Tkinter.Text(self.frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED, width=50)
 		self.viewer.bind("<ButtonRelease-1>", self.mouse_select)
@@ -164,7 +164,7 @@ class DumpViewer:
 		self.viewer.pack(side='left', fill='y')
 		self.asciiviewer.pack(side='left', fill='both', expand=1)
 		self.frame.pack(side='top', fill='x')
-		self.sb.config(command=self.scroll)		
+		self.sb.config(command=self.scroll)             
 		self.numviewer.config(yscrollcommand=self.sb.set)
 		self.asciiviewer.config(yscrollcommand=self.sb.set)
 		self.viewer.config(yscrollcommand=self.sb.set)
@@ -198,16 +198,16 @@ class DumpViewer:
 		test = string.split(textline[start:start+rnum])
 		test.reverse()
 		hex = int(string.join(test,''),16)
-#		print 'num: ',num,' rnum: ',rnum,'start: ',start,' test: ',test,' hex: ',hex
+#               print 'num: ',num,' rnum: ',rnum,'start: ',start,' test: ',test,' hex: ',hex
 							
 		if num == 2:
 			bytes=bytes+'\t\t%u'%hex
-			self.infoline.insert(1.0, bytes)	
+			self.infoline.insert(1.0, bytes)        
 		if num == 3:
 			rgbcol = "#%02x%02x%02x"% (int(test[2],16),int(test[1],16),int(test[0],16))
 			bgrcol = "#%02x%02x%02x"% (int(test[0],16),int(test[1],16),int(test[2],16))
 			bytes='RGB:     BGR:     '
-			self.infoline.insert(1.0, bytes)			
+			self.infoline.insert(1.0, bytes)                        
 			self.infoline.tag_add('color_rgb', '1.5', '1.8')
 			self.infoline.tag_config('color_rgb', background=rgbcol)
 			self.infoline.tag_add('color_bgr', '1.14', '1.17')
@@ -234,7 +234,7 @@ class DumpViewer:
 				B = (255 - col2)*(255 - col3)/255
 			cmykcol ="#%02x%02x%02x"% (R,G,B)
 			bytes='RGB:     BGR:     CMYK:     '
-			self.infoline.insert(1.0, bytes)			
+			self.infoline.insert(1.0, bytes)                        
 			self.infoline.tag_add('color_rgb', '1.5', '1.8')
 			self.infoline.tag_config('color_rgb', background=rgbcol)
 			self.infoline.tag_add('color_bgr', '1.14', '1.17')
@@ -243,13 +243,13 @@ class DumpViewer:
 			self.infoline.tag_config('color_cmyk', background=cmykcol)
 			
 		
- 		if num == 8:
- 			tstr = ''
+		if num == 8:
+			tstr = ''
 			for i in range(8):
 				tstr = tstr + chr(int(test[i],16))
- 			[hex] = struct.unpack('>d', tstr[0:8])
+			[hex] = struct.unpack('>d', tstr[0:8])
 			bytes=bytes+'\t\t%u'%int(hex)+'  [%.4f mm]'%round(int(hex)/10000.0,2)
-			self.infoline.insert(1.0, bytes)		
+			self.infoline.insert(1.0, bytes)                
 			
 		
 	def scroll(self, value1, value2):
@@ -257,17 +257,17 @@ class DumpViewer:
 		self.asciiviewer.yview(value1, value2)
 		self.numviewer.yview(value1, value2)
 		
-	def add_num(self, str):	
+	def add_num(self, str): 
 		self.numviewer['state']=Tkinter.NORMAL
 		self.numviewer.insert(Tkinter.END, str+'\n')
 		self.numviewer['state']=Tkinter.DISABLED
 		
-	def add_ascii(self, str):	
+	def add_ascii(self, str):       
 		self.asciiviewer['state']=Tkinter.NORMAL
 		self.asciiviewer.insert(Tkinter.END, str+'\n')
 		self.asciiviewer['state']=Tkinter.DISABLED
 		
-	def add(self, str):	
+	def add(self, str):     
 		self.viewer['state']=Tkinter.NORMAL
 		self.viewer.insert(Tkinter.END, str+'\n')
 		self.viewer['state']=Tkinter.DISABLED
@@ -288,7 +288,7 @@ class DumpViewer:
 			data=obj.path.uncompresseddata
 		else:
 			data=obj.path.data
-		#data=obj.path.fourcc+obj.path.chunksize+data
+		data=obj.path.fourcc+obj.path.chunksize+data
 		strng=''
 		self.clear()
 		i=1
@@ -301,7 +301,7 @@ class DumpViewer:
 					strng+= ''
 				if byte < end:
 					strng+="%02x " % ord(data[line + byte])
-			if end > 15:			
+			if end > 15:                    
 				strng+="%02x" % ord(data[line + 15])
 
 			str = ''
@@ -312,7 +312,7 @@ class DumpViewer:
 					str += data[line + byte]
 			#strng=strng+" "+str
 			self.add(strng)
-			self.add_ascii(str)	
+			self.add_ascii(str)     
 			
 			#self.viewer.tag_add('linenum', '%u.0'%i, '%u.8'%i)
 			#self.viewer.tag_add('ascii', '%u.59'%i, '%u.91'%i)
@@ -333,7 +333,7 @@ class InfoViewer:
 		self.int_frame = Tkinter.Frame(self.frame, border=0, relief='flat')
 		self.int_frame0 = Tkinter.Frame(self.frame, border=0, relief='flat')
 		self.viewer= Tkinter.Text(self.int_frame, wrap=Tkinter.NONE, state=Tkinter.DISABLED, bg='#EBEBEB', fg='black')
-		self.lister= Tkinter.Text(self.int_frame0, wrap=Tkinter.NONE, state=Tkinter.NORMAL, bg='#EDEDED', fg='black', width = 22) #		
+		self.lister= Tkinter.Text(self.int_frame0, wrap=Tkinter.NONE, state=Tkinter.NORMAL, bg='#EDEDED', fg='black', width = 22) #             
 		self.sb=Tkinter.Scrollbar(self.int_frame)
 		self.sbl=Tkinter.Scrollbar(self.int_frame0) #
 
