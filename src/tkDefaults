@@ -1,6 +1,6 @@
 ! for Tk 8.5  
 
-*font: 				      Arial 12
+*font: 				      Tahoma 10
 
 *background:               #959BA2
 *foreground:        black
@@ -14,7 +14,7 @@
 *Entry*background:     white
 *Scrollbar*width:  11
 *Scrollbar*troughColor:  #C1C5C9
-*Text*font:  Fixed 12
+*Text*font:  CourierNew 10
 *Text*background:   #1818B2
 *Text*foreground:   #B2B2B2
 
