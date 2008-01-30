@@ -303,7 +303,7 @@ class Analyser:
 		return '\nRotate:\t\t%u'%round(rot/1000000.0,2)
 		 
 	def loda_name(self,chunk,type,offset,cdr_version):
-		if cdr_version == 13 or cdr_version == 12:
+		if cdr_version >= 12:
 			layrname = unicode(chunk.data[offset:],'utf-16').encode('utf-8')
 		else:
 			layrname = chunk.data[offset:]
@@ -503,7 +503,7 @@ class Analyser:
 #############################################################################################
 		if chunk.fourcc == 'trfd':
 			ieeestart = 32
-			if cdr_version == 13:
+			if cdr_version >= 13:
 				ieeestart = 40
 			if cdr_version == 5:
 				ieeestart = 18
@@ -539,10 +539,10 @@ class Analyser:
 			txtshift = 0
 			if cdr_version == 7:
 				enclen = 3
-			if cdr_version == 12 or cdr_version == 13:
+			if cdr_version == 12 or cdr_version >= 13:
 				desclen = 8
 				txtshift = 4
-			if cdr_version == 13:
+			if cdr_version >= 13:
 				shift = 1
 					
 			numofenc=ord(chunk.data[0x69+shift])
@@ -579,7 +579,7 @@ class Analyser:
 					print 'WARNING! Flag == %x'%flag 
 		
 				if cdr_version > 7 and flag2 == 8:
-					if cdr_version == 13:
+					if cdr_version >= 13:
 						[elen] = struct.unpack('<L',chunk.data[0x71+shift+i*enclen:0x75+shift+i*enclen])
 						encname = unicode(chunk.data[0x76:0x76+elen*2],'utf-16').encode('ascii')
 						shift = shift + 4+elen*2
@@ -596,7 +596,7 @@ class Analyser:
 			#print 'numch: %x, txtoff: %x'%(numchar, txtoffset)
 			text = ''
 			shift = 0 
-			if cdr_version == 12 or cdr_version == 13:
+			if cdr_version == 12 or cdr_version >= 13:
 				for i in range(numchar):
 					if ord(chunk.data[txtoptions+i*8]) == 0:
 						char = chunk.data[txtoffset+i+shift]
@@ -643,7 +643,7 @@ class Analyser:
 			dash_offset = 0x68
 			arrw_offset = 0x80   
 				
-			if cdr_version == 13:
+			if cdr_version >= 13:
 				ct_offset = 0x1c
 				lw_offset = 0x1e
 				lc_offset = 0x1a
@@ -773,7 +773,7 @@ class Analyser:
 			self.viewer_obj.add('\nFild_Id:\t%02X '%ord(chunk.data[0])+'%02X '%ord(chunk.data[1])+'%02X '%ord(chunk.data[2])+'%02X '%ord(chunk.data[3]))
 
 			pal = ord(chunk.data[4])
-			if cdr_version == 13:
+			if cdr_version >= 13:
 				pal = ord(chunk.data[0xc])
 			
 			if fild_pal_type.has_key(pal):
@@ -786,7 +786,7 @@ class Analyser:
 
 			if fild_type == 'Solid':
 				clr_offset = 0x8
-				if cdr_version == 13:
+				if cdr_version >= 13:
 					clr_offset = 0x1b
 				
 				clrmode = ord(chunk.data[clr_offset])
@@ -796,7 +796,7 @@ class Analyser:
 					self.viewer_obj.add('\nColor model:\tUnknown (%X)'%clrmode)
 				
 				offset = 0x10
-				if cdr_version == 13:
+				if cdr_version >= 13:
 					offset =0x23
 																	# RGB           CMYK
 				col0=ord(chunk.data[offset])                    #       BB              CC
@@ -819,7 +819,7 @@ class Analyser:
 				pal_len = 16
 				pal_off = 0
 				prcnt_off = 0
-				if cdr_version == 13:
+				if cdr_version >= 13:
 					grd_offset = 0x16
 					mid_offset = 0x3c
 					pal_len = 24

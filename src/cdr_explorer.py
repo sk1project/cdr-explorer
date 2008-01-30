@@ -1,4 +1,5 @@
 #! /usr/bin/python
+
 import Tkinter, tkFileDialog, chunks, os, os_utils
 from TreeWidget import FileTreeItem, TreeNode, TreeItem, ScrolledCanvas
 from widgets import WebButton, WebEntry, PreviewPanel
